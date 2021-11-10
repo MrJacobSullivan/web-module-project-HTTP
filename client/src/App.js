@@ -44,7 +44,9 @@ const App = (props) => {
           <FavoriteMovieList favoriteMovies={favoriteMovies} />
 
           <Switch>
-            <Route path='/movies/edit/:id'></Route>
+            <Route path='/movies/edit/:id'>
+              <EditMovieForm />
+            </Route>
 
             <Route path='/movies/:id'>
               <Movie />
