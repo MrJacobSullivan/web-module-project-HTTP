@@ -1,6 +1,6 @@
 import React from 'react'
 
-const DeleteMovieModal = () => {
+const DeleteMovieModal = ({ handleDelete, handleCancel }) => {
   return (
     <div id='deleteMovieModal'>
       <div className='modal-dialog'>
@@ -24,8 +24,14 @@ const DeleteMovieModal = () => {
                 className='btn btn-default'
                 data-dismiss='modal'
                 value='Cancel'
+                onClick={handleCancel}
               />
-              <input type='submit' className='btn btn-danger' value='Delete' />
+              <input
+                type='submit'
+                className='btn btn-danger'
+                value='Delete'
+                onClick={handleDelete}
+              />
             </div>
           </form>
         </div>

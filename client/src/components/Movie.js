@@ -1,12 +1,16 @@
 import React, { useEffect, useState } from 'react'
 import { Link, useParams, useHistory } from 'react-router-dom'
 
+import DeleteMovieModal from './DeleteMovieModal'
+
 import axios from 'axios'
 
 const Movie = (props) => {
   const { addToFavorites, deleteMovie } = props
 
   const [movie, setMovie] = useState('')
+
+  const [submitted, setSubmitted] = useState(false)
 
   const { id } = useParams()
   const { push } = useHistory()
@@ -22,16 +26,25 @@ const Movie = (props) => {
       })
   }, [id])
 
+  const toggleSubmitted = () => setSubmitted((prev) => !prev)
+
   const handleDelete = () => {
     axios
       .delete(`http://localhost:5000/api/movies/${movie.id}`)
       .then(() => {
         deleteMovie(movie.id)
-        push('/movies')
       })
       .catch((err) => {
         console.log(err)
       })
+
+    push('/')
+
+    return () => toggleSubmitted()
+  }
+
+  if (submitted) {
+    return <DeleteMovieModal handleDelete={handleDelete} handleCancel={toggleSubmitted} />
   }
 
   return (
@@ -77,7 +90,7 @@ const Movie = (props) => {
                 <Link to={`/movies/edit/${movie.id}`} className='m-2 btn btn-success'>
                   Edit
                 </Link>
-                <span className='delete' onClick={handleDelete}>
+                <span className='delete' onClick={toggleSubmitted}>
                   <input type='button' className='m-2 btn btn-danger' value='Delete' />
                 </span>
               </section>
